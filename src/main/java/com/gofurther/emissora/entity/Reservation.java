@@ -1,51 +1,64 @@
 package com.gofurther.emissora.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class Reservation extends User {
+public class Reservation {
+
     @Id
     @GeneratedValue
-    @Column(name="id_reservation")
-    private int idReservation;
+    @Column(name="id")
+    private int id;
+
     @Column(name="date_start")
     private Date start;
-    @Column(name="date_and")
-    private Date and;
-    @Column(name="fk_performer")
+
+    @Column(name="date_finish")
+    private Date finish;
+
+    @ManyToOne
+    @JoinColumn(name="fk_performer")
     private Performer performer;
-    @Column(name="fk_producer")
-    private Producer productor;
 
-    public Reservation(int idReservation, Date start, Date and, Performer performer, Producer productor) {
-        this.idReservation = idReservation;
-        this.start = start;
-        this.and = and;
-        this.performer = performer;
-        this.productor = productor;
-    }
+    @ManyToOne
+    @JoinColumn(name="fk_producer")
+    private Producer producer;
 
-    public int getIdReservation() {
-        return idReservation;
+    public int getId() {
+        return id;
     }
 
     public Date getStart() {
         return start;
     }
 
-    public Date getAnd() {
-        return and;
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+    public Date getFinish() {
+        return finish;
+    }
+
+    public void setFinish(Date finish) {
+        this.finish = finish;
     }
 
     public Performer getPerformer() {
         return performer;
     }
 
-    public Producer getProductor() {
-        return productor;
+    public void setPerformer(Performer performer) {
+        this.performer = performer;
+    }
+
+    public Producer getProducer() {
+        return producer;
+    }
+
+    public void setProducer(Producer producer) {
+        this.producer = producer;
     }
 }
