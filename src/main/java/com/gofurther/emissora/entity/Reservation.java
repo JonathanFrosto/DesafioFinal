@@ -16,17 +16,16 @@ public class Reservation extends User {
     private Date start;
     @Column(name="date_and")
     private Date and;
+    @Column(name="fk_performer")
+    private Performer performer;
+    @Column(name="fk_producer")
+    private Producer productor;
 
-    @Column(name="fk_actor")
-    private list<Actor> actorList;
-    @Column(name="fk_productor")
-    private Productor productor;
-
-    public Reservation(int idReservation, Date start, Date and, list<Actor> actorList, Productor productor) {
+    public Reservation(int idReservation, Date start, Date and, Performer performer, Producer productor) {
         this.idReservation = idReservation;
         this.start = start;
         this.and = and;
-        this.actorList = actorList;
+        this.performer = performer;
         this.productor = productor;
     }
 
@@ -42,11 +41,11 @@ public class Reservation extends User {
         return and;
     }
 
-    public list<Actor> getActorList() {
-        return actorList;
+    public Performer getPerformer() {
+        return performer;
     }
 
-    public Productor getProductor() {
+    public Producer getProductor() {
         return productor;
     }
 }
