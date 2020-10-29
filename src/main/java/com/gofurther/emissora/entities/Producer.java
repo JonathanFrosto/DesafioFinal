@@ -13,6 +13,7 @@ public class Producer extends User {
     public void addToReservations(Reservation reservation){
         reservations.add(reservation);
     }
+
     public List<Reservation> showReservations() {
         return reservations;
     }
