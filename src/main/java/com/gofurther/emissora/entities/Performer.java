@@ -1,21 +1,22 @@
 package com.gofurther.emissora.entities;
 
+import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Performer extends User{
     private String genre;
-    private List<String> acting;
+    private String acting;
 
     @OneToMany(mappedBy = "performer")
     private List<Reservation> reservations = new ArrayList<>();
 
-    public Performer(Integer id, String nome, String email, String senha) {
-        super(id, nome, email, senha);
+    public void addToReservations(Reservation reservation){
+        reservations.add(reservation);
     }
-
-    public List<Reservation> getReservations() {
+    public List<Reservation> showReservations() {
         return reservations;
     }
 
@@ -27,11 +28,11 @@ public class Performer extends User{
         this.genre = genre;
     }
 
-    public List<String> getActing() {
+    public String getActing() {
         return acting;
     }
 
-    public void setActing(List<String> acting) {
+    public void setActing(String acting) {
         this.acting = acting;
     }
 }

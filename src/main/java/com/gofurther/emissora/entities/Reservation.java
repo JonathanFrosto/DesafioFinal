@@ -6,7 +6,7 @@ import java.util.Date;
 @Entity
 public class Reservation{
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id_reservation")
     private int idReservation;
 
@@ -14,20 +14,19 @@ public class Reservation{
     private Date start;
 
     @Column(name="date_and")
-    private Date and;
+    private Date finish;
 //
     @ManyToOne
     @JoinColumn(name = "performer_id")
     private Performer performer;
 
-//    @ManyToOne
-//    @JoinColumn(name="id_user")
+    @ManyToOne
+    @JoinColumn(name="id_user")
     private Producer producer;
 
-    public Reservation(int idReservation, Date start, Date and, Performer performer, Producer producer) {
-        this.idReservation = idReservation;
+    public Reservation(Date start, Date finish, Performer performer, Producer producer) {
         this.start = start;
-        this.and = and;
+        this.finish = finish;
         this.performer = performer;
         this.producer = producer;
     }
@@ -40,8 +39,8 @@ public class Reservation{
         return start;
     }
 
-    public Date getAnd() {
-        return and;
+    public Date getFinish() {
+        return finish;
     }
 
     public Performer getPerformer() {
