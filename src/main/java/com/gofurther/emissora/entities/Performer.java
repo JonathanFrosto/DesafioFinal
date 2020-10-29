@@ -9,6 +9,7 @@ import java.util.List;
 public class Performer extends User{
     private String genre;
     private String acting;
+    private Double salary;
 
     @OneToMany(mappedBy = "performer")
     private List<Reservation> reservations = new ArrayList<>();
@@ -18,6 +19,14 @@ public class Performer extends User{
     }
     public List<Reservation> showReservations() {
         return reservations;
+    }
+
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
     }
 
     public String getGenre() {
