@@ -1,6 +1,6 @@
 package com.gofurther.emissora.controllers;
 
-import com.gofurther.emissora.entities.Reserva;
+import com.gofurther.emissora.entities.Booking;
 import com.gofurther.emissora.entities.Reservation;
 import com.gofurther.emissora.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,8 @@ public class ReservationController {
     ReservationService reservationService;
 
     @PostMapping("/register")
-    public ResponseEntity<Reservation> createReservation(@RequestBody Reserva reserva){
-        return ResponseEntity.ok(reservationService.createReservation(reserva));
+    public ResponseEntity<Reservation> createReservation(@RequestBody Booking booking){
+        return ResponseEntity.ok(reservationService.createReservation(booking));
     }
 
 }

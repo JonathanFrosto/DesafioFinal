@@ -2,7 +2,7 @@ package com.gofurther.emissora.services;
 
 import com.gofurther.emissora.entities.Performer;
 import com.gofurther.emissora.entities.Producer;
-import com.gofurther.emissora.entities.Reserva;
+import com.gofurther.emissora.entities.Booking;
 import com.gofurther.emissora.entities.Reservation;
 import com.gofurther.emissora.repositories.PerformerRepository;
 import com.gofurther.emissora.repositories.ProducerRepository;
@@ -25,13 +25,13 @@ public class ReservationService {
         return reservationRepository;
     }
 
-    public Reservation createReservation(Reserva reserva){
-        Producer producer = producerRepository.findByEmail(reserva.getEmailProducer())
+    public Reservation createReservation(Booking booking){
+        Producer producer = producerRepository.findByEmail(booking.getEmailProducer())
                 .orElseThrow(() -> new IllegalArgumentException("This email has been used"));
 
-        Performer performer = performerRepository.findByEmail(reserva.getEmailPerformer());
+        Performer performer = performerRepository.findByEmail(booking.getEmailPerformer());
 
-        Reservation reservation = new Reservation(reserva.getInicio(),reserva.getFim()
+        Reservation reservation = new Reservation(booking.getStartDate(), booking.getFinishDate()
                 ,performer, producer);
 
         performer.addToReservations(reservation);
@@ -42,5 +42,4 @@ public class ReservationService {
     public void deleteReservation(Reservation reservation){
         reservationRepository.delete(reservation);
     }
-
 }

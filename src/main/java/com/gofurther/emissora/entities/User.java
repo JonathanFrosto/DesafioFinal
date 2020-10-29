@@ -6,10 +6,8 @@ import javax.persistence.*;
 
 @MappedSuperclass
 public class User {
-
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "id_user")
     private Integer id;
     private String name;
 
@@ -18,8 +16,6 @@ public class User {
 
     @JsonIgnore
     private String password;
-
-
 
     public Integer getId() {
         return id;

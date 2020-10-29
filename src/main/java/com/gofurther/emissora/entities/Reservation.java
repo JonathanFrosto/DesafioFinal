@@ -7,47 +7,64 @@ import java.util.Date;
 public class Reservation{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="id_reservation")
-    private int idReservation;
+    private int id;
 
-    @Column(name="date_start")
-    private Date start;
+    @Column(name="start_date")
+    private Date startDate;
 
-    @Column(name="date_and")
-    private Date finish;
-//
+    @Column(name="finish_date")
+    private Date finishDate;
+
     @ManyToOne
-    @JoinColumn(name = "performer_id")
+    @JoinColumn(name="producer_id",nullable = false)
+    private Producer producer;
+//
+    @ManyToOne()
+    @JoinColumn(name = "performer_id",nullable = false)
     private Performer performer;
 
-    @ManyToOne
-    @JoinColumn(name="id_user")
-    private Producer producer;
+    public Reservation() {}
 
-    public Reservation(Date start, Date finish, Performer performer, Producer producer) {
-        this.start = start;
-        this.finish = finish;
+    public Reservation(Date startDate, Date finishDate, Performer performer, Producer producer) {
+        this.startDate = startDate;
+        this.finishDate = finishDate;
         this.performer = performer;
         this.producer = producer;
     }
 
-    public int getIdReservation() {
-        return idReservation;
+    public int getId() {
+        return id;
     }
 
-    public Date getStart() {
-        return start;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public Date getFinish() {
-        return finish;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getFinishDate() {
+        return finishDate;
+    }
+
+    public void setFinishDate(Date finishDate) {
+        this.finishDate = finishDate;
+    }
+
+    public Producer getProducer() {
+        return producer;
+    }
+
+    public void setProducer(Producer producer) {
+        this.producer = producer;
     }
 
     public Performer getPerformer() {
         return performer;
     }
 
-    public Producer getProducer() {
-        return producer;
+    public void setPerformer(Performer performer) {
+        this.performer = performer;
     }
 }

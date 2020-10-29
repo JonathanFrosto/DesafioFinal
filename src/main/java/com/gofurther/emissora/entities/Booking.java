@@ -2,26 +2,26 @@ package com.gofurther.emissora.entities;
 
 import java.util.Date;
 
-public class Reserva {
-    private Date inicio;
-    private Date fim;
+public class Booking {
+    private Date startDate;
+    private Date finishDate;
     private String emailProducer;
     private String emailPerformer;
 
-    public Date getInicio() {
-        return inicio;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setInicio(Date inicio) {
-        this.inicio = inicio;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public Date getFim() {
-        return fim;
+    public Date getFinishDate() {
+        return finishDate;
     }
 
-    public void setFim(Date fim) {
-        this.fim = fim;
+    public void setFinishDate(Date finishDate) {
+        this.finishDate = finishDate;
     }
 
     public String getEmailProducer() {
