@@ -2,13 +2,16 @@ package com.gofurther.emissora.services;
 
 import com.gofurther.emissora.entities.Performer;
 import com.gofurther.emissora.entities.Producer;
-import com.gofurther.emissora.entities.Booking;
+import com.gofurther.emissora.entities.ReservationRequest;
 import com.gofurther.emissora.entities.Reservation;
 import com.gofurther.emissora.repositories.PerformerRepository;
 import com.gofurther.emissora.repositories.ProducerRepository;
 import com.gofurther.emissora.repositories.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.time.Duration;
+import java.util.List;
 
 @Component
 public class ReservationService {
@@ -25,18 +28,30 @@ public class ReservationService {
         return reservationRepository;
     }
 
-    public Reservation createReservation(Booking booking){
-        Producer producer = producerRepository.findByEmail(booking.getEmailProducer())
+    public List<Reservation> getAllProducerReservations(Integer producerId){
+        return reservationRepository.findAllByProducerId(producerId);
+    }
+
+    public List<Reservation> getAllPerformerReservations(Integer performerId){
+        return reservationRepository.findAllByProducerId(performerId);
+    }
+
+    public Reservation createReservation(ReservationRequest reservationRequest){
+
+        Producer producer = producerRepository.findByEmail(reservationRequest.getEmailProducer())
                 .orElseThrow(() -> new IllegalArgumentException("This email has been used"));
 
-        Performer performer = performerRepository.findByEmail(booking.getEmailPerformer());
+        Performer performer = performerRepository.findByEmail(reservationRequest.getEmailPerformer());
 
-        Reservation reservation = new Reservation(booking.getStartDate(), booking.getFinishDate()
-                ,performer, producer);
+        Duration d = Duration.between(reservationRequest.getStartDate(),reservationRequest.getFinishDate());
+        Double salary = (d.toDays()+1)* performer.getSalary();
 
-        performer.addToReservations(reservation);
-        producer.addToReservations(reservation);
+        Reservation reservation = new Reservation(reservationRequest.getStartDate(), reservationRequest.getFinishDate()
+                , producer,performer,salary);
+
+
         return reservationRepository.save(reservation);
+
     }
 
     public void deleteReservation(Reservation reservation){
