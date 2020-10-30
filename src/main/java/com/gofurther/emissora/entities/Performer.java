@@ -9,23 +9,22 @@ public class Performer extends User{
     @Enumerated(EnumType.STRING)
     @Column(length = 6)
     private Gender gender;
+    private double salary;
 
     @ElementCollection
     private List<String> genre;
 
-    @OneToMany(mappedBy = "performer")
-    private List<Reservation> reservations = new ArrayList<>();
-
-    public void addToReservations(Reservation reservation){
-        reservations.add(reservation);
-    }
-
-    public List<Reservation> showReservations() {
-        return reservations;
-    }
 
     public Gender getGender() {
         return gender;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
     }
 
     public void setGender(Gender gender) {
