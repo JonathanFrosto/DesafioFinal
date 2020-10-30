@@ -1,6 +1,7 @@
 package com.gofurther.emissora.entities;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -9,11 +10,9 @@ public class Reservation{
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="start_date")
-    private Date startDate;
+    private LocalDateTime startDate;
 
-    @Column(name="finish_date")
-    private Date finishDate;
+    private LocalDateTime finishDate;
 
     @ManyToOne
     @JoinColumn(name="producer_id",nullable = false)
@@ -23,32 +22,36 @@ public class Reservation{
     @JoinColumn(name = "performer_id",nullable = false)
     private Performer performer;
 
+    @Column(precision=10, scale=2)
+    private double value;
+
     public Reservation() {}
 
-    public Reservation(Date startDate, Date finishDate, Performer performer, Producer producer) {
+    public Reservation(LocalDateTime startDate, LocalDateTime finishDate, Producer producer, Performer performer, double value) {
         this.startDate = startDate;
         this.finishDate = finishDate;
-        this.performer = performer;
         this.producer = producer;
+        this.performer = performer;
+        this.value = value;
     }
 
     public int getId() {
         return id;
     }
 
-    public Date getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public Date getFinishDate() {
+    public LocalDateTime getFinishDate() {
         return finishDate;
     }
 
-    public void setFinishDate(Date finishDate) {
+    public void setFinishDate(LocalDateTime finishDate) {
         this.finishDate = finishDate;
     }
 
@@ -66,5 +69,12 @@ public class Reservation{
 
     public void setPerformer(Performer performer) {
         this.performer = performer;
+    }
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
     }
 }

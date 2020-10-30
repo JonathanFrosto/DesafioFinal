@@ -1,26 +1,28 @@
 package com.gofurther.emissora.entities;
 
-import java.util.Date;
 
-public class Booking {
-    private Date startDate;
-    private Date finishDate;
+import java.time.LocalDateTime;
+
+public class ReservationRequest {
+
+    private LocalDateTime startDate;
+    private LocalDateTime finishDate;
     private String emailProducer;
     private String emailPerformer;
 
-    public Date getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public Date getFinishDate() {
+    public LocalDateTime getFinishDate() {
         return finishDate;
     }
 
-    public void setFinishDate(Date finishDate) {
+    public void setFinishDate(LocalDateTime finishDate) {
         this.finishDate = finishDate;
     }
 
