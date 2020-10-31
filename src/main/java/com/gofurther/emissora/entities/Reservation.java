@@ -10,8 +10,10 @@ public class Reservation{
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
+    @Column(nullable = false)
     private LocalDateTime startDate;
 
+    @Column(nullable = false)
     private LocalDateTime finishDate;
 
     @ManyToOne

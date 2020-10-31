@@ -36,8 +36,8 @@ public class ReservationService {
         return reservationRepository.findAllByProducerId(producerId);
     }
 
-    public List<Reservation> getAllPerformerReservations(Integer performerId) {
-        return reservationRepository.findAllByProducerId(performerId);
+    public List<Reservation> getAllPerformerReservations(Integer performerId){
+        return reservationRepository.findAllByPerformerId(performerId);
     }
 
     public Reservation createReservation(ReservationRequest reservationRequest) {
