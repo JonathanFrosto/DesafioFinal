@@ -12,11 +12,15 @@ public class User {
     private Integer id;
     private String name;
 
+    private boolean isAdmin;
+
     @Column(unique = true)
     private String email;
-    @JsonIgnore
     private String password;
 
+    public User(boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
 
     public Integer getId() {
         return id;
@@ -28,6 +32,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     public String getEmail() {

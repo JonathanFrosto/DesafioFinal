@@ -10,13 +10,22 @@ public class Performer extends User{
     @Column(length = 6)
     private Gender gender;
     private double salary;
+    private double stars;
+    private boolean status;
 
     @ElementCollection
     private List<String> genre;
 
+    public Performer() {
+        super(false);
+    }
 
     public Gender getGender() {
         return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     public double getSalary() {
@@ -27,8 +36,12 @@ public class Performer extends User{
         this.salary = salary;
     }
 
-    public void setGender(Gender gender) {
-        this.gender = gender;
+    public double getStars() {
+        return stars;
+    }
+
+    public void setStars(double stars) {
+        this.stars = stars;
     }
 
     public List<String> getGenre() {
@@ -37,5 +50,13 @@ public class Performer extends User{
 
     public void setGenre(List<String> genre) {
         this.genre = genre;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

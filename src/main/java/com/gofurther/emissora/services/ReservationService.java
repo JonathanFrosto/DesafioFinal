@@ -33,7 +33,7 @@ public class ReservationService {
     }
 
     public List<Reservation> getAllPerformerReservations(Integer performerId){
-        return reservationRepository.findAllByProducerId(performerId);
+        return reservationRepository.findAllByPerformerId(performerId);
     }
 
     public Reservation createReservation(ReservationRequest reservationRequest){
@@ -43,15 +43,17 @@ public class ReservationService {
 
         Performer performer = performerRepository.findByEmail(reservationRequest.getEmailPerformer());
 
-        Duration d = Duration.between(reservationRequest.getStartDate(),reservationRequest.getFinishDate());
-        Double salary = (d.toDays()+1)* performer.getSalary();
+        if (performer.isStatus()){
+            Duration d = Duration.between(reservationRequest.getStartDate(),reservationRequest.getFinishDate());
+            Double salary = (d.toDays()+1)* performer.getSalary();
 
-        Reservation reservation = new Reservation(reservationRequest.getStartDate(), reservationRequest.getFinishDate()
-                , producer,performer,salary);
+            Reservation reservation = new Reservation(reservationRequest.getStartDate(), reservationRequest.getFinishDate()
+                    , producer,performer,salary);
 
 
-        return reservationRepository.save(reservation);
-
+            return reservationRepository.save(reservation);
+        }
+        return null;
     }
 
     public void deleteReservation(Reservation reservation){
