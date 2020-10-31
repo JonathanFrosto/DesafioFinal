@@ -19,78 +19,82 @@ import java.util.List;
 
 @Component
 public class ReservationService {
-    @Autowired
-    ReservationRepository reservationRepository;
 
-    @Autowired
-    ProducerRepository producerRepository;
+  @Autowired
+  ReservationRepository reservationRepository;
 
-    @Autowired
-    PerformerRepository performerRepository;
+  @Autowired
+  ProducerRepository producerRepository;
 
-    public ReservationRepository getReservationRepository() {
-        return reservationRepository;
+  @Autowired
+  PerformerRepository performerRepository;
+
+  public ReservationRepository getReservationRepository() {
+    return reservationRepository;
+  }
+
+  public List<Reservation> getAllProducerReservations(Integer producerId) {
+    return reservationRepository.findAllByProducerId(producerId);
+  }
+
+  public List<Reservation> getAllPerformerReservations(Integer performerId) {
+    return reservationRepository.findAllByPerformerId(performerId);
+  }
+
+
+  public Reservation createReservation(ReservationRequest reservationRequest) {
+    Performer performer = performerRepository.findByEmail(reservationRequest.getEmailPerformer());
+
+    List<Reservation> reservations = getAllPerformerReservations(performer.getId());
+
+    LocalDateTime reqStart;
+    LocalDateTime reqFinish;
+    for (Reservation reservation : reservations) {
+      reqStart = reservationRequest.getStartDate();
+      reqFinish = reservationRequest.getFinishDate();
+
+      if (reqStart.isAfter(reservation.getStartDate()) &&
+          reqFinish.isBefore(reservation.getFinishDate())) {
+        throw new IllegalArgumentException("Date conflict");
+
+      } else if ((reqStart.isAfter(reservation.getStartDate()) && reqStart
+          .isBefore(reservation.getFinishDate())) &&
+          reqFinish.isAfter(reservation.getFinishDate())) {
+        throw new IllegalArgumentException("Date conflict");
+
+      } else if (reqStart.isBefore(reservation.getStartDate()) &&
+          reqFinish.isAfter(reservation.getFinishDate())) {
+        throw new IllegalArgumentException("Date conflict");
+
+      } else if (reqStart.isBefore(reservation.getStartDate()) &&
+          (reqFinish.isAfter(reservation.getStartDate()) && reqFinish
+              .isBefore(reservation.getFinishDate()))) {
+        throw new IllegalArgumentException("Date conflict");
+
+      } else if (reqStart.isEqual(reservation.getStartDate()) ||
+          reqStart.isEqual(reservation.getFinishDate()) ||
+          reqFinish.isEqual(reservation.getStartDate()) ||
+          reqFinish.isEqual(reservation.getFinishDate())) {
+        throw new IllegalArgumentException("Date conflict");
+      }
     }
 
-    public List<Reservation> getAllProducerReservations(Integer producerId) {
-        return reservationRepository.findAllByProducerId(producerId);
-    }
+    Producer producer = producerRepository.findByEmail(reservationRequest.getEmailProducer())
+        .orElseThrow(() -> new IllegalArgumentException("This email has been used"));
 
-    public List<Reservation> getAllPerformerReservations(Integer performerId){
-        return reservationRepository.findAllByPerformerId(performerId);
-    }
+    Duration d = Duration
+        .between(reservationRequest.getStartDate(), reservationRequest.getFinishDate());
+    Double salary = (d.toDays() + 1) * performer.getSalary();
 
-    public Reservation createReservation(ReservationRequest reservationRequest) {
-        Performer performer = performerRepository.findByEmail(reservationRequest.getEmailPerformer());
+    Reservation reservation = new Reservation(reservationRequest.getStartDate(),
+        reservationRequest.getFinishDate()
+        , producer, performer, salary);
 
-        List<Reservation> reservations = getAllPerformerReservations(performer.getId());
-
-        LocalDateTime reqStart;
-        LocalDateTime reqFinish;
-        for (Reservation reservation : reservations) {
-            reqStart = reservationRequest.getStartDate();
-            reqFinish = reservationRequest.getFinishDate();
-
-            if (reqStart.isAfter(reservation.getStartDate()) &&
-                    reqFinish.isBefore(reservation.getFinishDate())) {
-                throw new IllegalArgumentException("Date conflict");
-
-            } else if ((reqStart.isAfter(reservation.getStartDate()) && reqStart.isBefore(reservation.getFinishDate())) &&
-                    reqFinish.isAfter(reservation.getFinishDate())) {
-                throw new IllegalArgumentException("Date conflict");
-
-            } else if (reqStart.isBefore(reservation.getStartDate()) &&
-                    reqFinish.isAfter(reservation.getFinishDate())) {
-                throw new IllegalArgumentException("Date conflict");
-
-            } else if (reqStart.isBefore(reservation.getStartDate()) &&
-                    (reqFinish.isAfter(reservation.getStartDate()) && reqFinish.isBefore(reservation.getFinishDate()))) {
-                throw new IllegalArgumentException("Date conflict");
-
-            } else if (reqStart.isEqual(reservation.getStartDate()) ||
-                    reqStart.isEqual(reservation.getFinishDate()) ||
-                    reqFinish.isEqual(reservation.getStartDate()) ||
-                    reqFinish.isEqual(reservation.getFinishDate())) {
-                throw new IllegalArgumentException("Date conflict");
-            }
-        }
-
-        Producer producer = producerRepository.findByEmail(reservationRequest.getEmailProducer())
-                .orElseThrow(() -> new IllegalArgumentException("This email has been used"));
+    return reservationRepository.save(reservation);
+  }
 
 
-        Duration d = Duration.between(reservationRequest.getStartDate(), reservationRequest.getFinishDate());
-        Double salary = (d.toDays() + 1) * performer.getSalary();
-
-        Reservation reservation = new Reservation(reservationRequest.getStartDate(), reservationRequest.getFinishDate()
-                , producer, performer, salary);
-
-        return reservationRepository.save(reservation);
-    }
-
-
-
-    public void deleteReservation(Reservation reservation) {
-        reservationRepository.delete(reservation);
-    }
+  public void deleteReservation(Reservation reservation) {
+    reservationRepository.delete(reservation);
+  }
 }

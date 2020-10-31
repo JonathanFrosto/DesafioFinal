@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ProducerRepository extends CrudRepository<Producer,Integer> {
-    Optional<Producer> findByEmail(String email);
+public interface ProducerRepository extends CrudRepository<Producer, Integer> {
+
+  Optional<Producer> findByEmail(String email);
 }

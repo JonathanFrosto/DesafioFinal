@@ -7,7 +7,8 @@ import java.util.List;
 
 @Entity
 public class Producer extends User {
-    public Producer() {
-        super(true);
-    }
+
+  public Producer() {
+    super(true);
+  }
 }

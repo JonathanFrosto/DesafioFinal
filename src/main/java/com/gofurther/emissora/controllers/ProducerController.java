@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/producer")
 public class ProducerController {
-    @Autowired
-    ProducerService producerService;
 
-    @PostMapping ("/register")
-    public ResponseEntity<Producer> createProducer(@RequestBody Producer producer){
-        return ResponseEntity.ok(producerService.createProducer(producer));
-    }
+  @Autowired
+  ProducerService producerService;
+
+  @PostMapping("/register")
+  public ResponseEntity<Producer> createProducer(@RequestBody Producer producer) {
+    return ResponseEntity.ok(producerService.createProducer(producer));
+  }
 }

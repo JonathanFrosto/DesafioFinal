@@ -7,56 +7,57 @@ import javax.persistence.*;
 
 @MappedSuperclass
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String name;
 
-    private boolean isAdmin;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
+  private String name;
 
-    @Column(unique = true)
-    private String email;
-    private String password;
+  private boolean isAdmin;
 
-    public User(boolean isAdmin) {
-        this.isAdmin = isAdmin;
-    }
+  @Column(unique = true)
+  private String email;
+  private String password;
 
-    public Integer getId() {
-        return id;
-    }
+  public User(boolean isAdmin) {
+    this.isAdmin = isAdmin;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public boolean isAdmin() {
-        return isAdmin;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
-    }
+  public boolean isAdmin() {
+    return isAdmin;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public void setAdmin(boolean admin) {
+    isAdmin = admin;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-
-    public String getPassword() {
-        return password;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  public String getPassword() {
+    return password;
+  }
+
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
 }
