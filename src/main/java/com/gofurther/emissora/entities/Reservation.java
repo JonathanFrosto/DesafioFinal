@@ -5,78 +5,82 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-public class Reservation{
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+public class Reservation {
 
-    @Column(nullable = false)
-    private LocalDateTime startDate;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
-    @Column(nullable = false)
-    private LocalDateTime finishDate;
+  @Column(nullable = false)
+  private LocalDateTime startDate;
 
-    @ManyToOne
-    @JoinColumn(name="producer_id",nullable = false)
-    private Producer producer;
-//
-    @ManyToOne()
-    @JoinColumn(name = "performer_id",nullable = false)
-    private Performer performer;
+  @Column(nullable = false)
+  private LocalDateTime finishDate;
 
-    @Column(precision=10, scale=2)
-    private double value;
+  @ManyToOne
+  @JoinColumn(name = "producer_id", nullable = false)
+  private Producer producer;
+  //
+  @ManyToOne()
+  @JoinColumn(name = "performer_id", nullable = false)
+  private Performer performer;
 
-    public Reservation() {}
+  @Column(precision = 10, scale = 2)
+  private double value;
 
-    public Reservation(LocalDateTime startDate, LocalDateTime finishDate, Producer producer, Performer performer, double value) {
-        this.startDate = startDate;
-        this.finishDate = finishDate;
-        this.producer = producer;
-        this.performer = performer;
-        this.value = value;
-    }
+  public Reservation() {
+  }
 
-    public int getId() {
-        return id;
-    }
+  public Reservation(LocalDateTime startDate, LocalDateTime finishDate, Producer producer,
+      Performer performer, double value) {
+    this.startDate = startDate;
+    this.finishDate = finishDate;
+    this.producer = producer;
+    this.performer = performer;
+    this.value = value;
+  }
 
-    public LocalDateTime getStartDate() {
-        return startDate;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
-    }
+  public LocalDateTime getStartDate() {
+    return startDate;
+  }
 
-    public LocalDateTime getFinishDate() {
-        return finishDate;
-    }
+  public void setStartDate(LocalDateTime startDate) {
+    this.startDate = startDate;
+  }
 
-    public void setFinishDate(LocalDateTime finishDate) {
-        this.finishDate = finishDate;
-    }
+  public LocalDateTime getFinishDate() {
+    return finishDate;
+  }
 
-    public Producer getProducer() {
-        return producer;
-    }
+  public void setFinishDate(LocalDateTime finishDate) {
+    this.finishDate = finishDate;
+  }
 
-    public void setProducer(Producer producer) {
-        this.producer = producer;
-    }
+  public Producer getProducer() {
+    return producer;
+  }
 
-    public Performer getPerformer() {
-        return performer;
-    }
+  public void setProducer(Producer producer) {
+    this.producer = producer;
+  }
 
-    public void setPerformer(Performer performer) {
-        this.performer = performer;
-    }
-    public double getValue() {
-        return value;
-    }
+  public Performer getPerformer() {
+    return performer;
+  }
 
-    public void setValue(double value) {
-        this.value = value;
-    }
+  public void setPerformer(Performer performer) {
+    this.performer = performer;
+  }
+
+  public double getValue() {
+    return value;
+  }
+
+  public void setValue(double value) {
+    this.value = value;
+  }
 }

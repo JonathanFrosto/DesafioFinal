@@ -7,14 +7,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProducerService {
-    @Autowired
-    ProducerRepository producerRepository;
 
-    public Producer createProducer(Producer producer){
-        return producerRepository.save(producer);
-    }
+  @Autowired
+  ProducerRepository producerRepository;
 
-    public void deleteProducer(Producer producer){
-        producerRepository.delete(producer);
-    }
+  public Producer createProducer(Producer producer) {
+    return producerRepository.save(producer);
+  }
+
+  public void deleteProducer(Producer producer) {
+    producerRepository.delete(producer);
+  }
 }
