@@ -20,4 +20,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(runtimeException, message, new HttpHeaders(), HttpStatus.CONFLICT, webRequest);
 
     }
+
+    @ExceptionHandler(value = {RuntimeException.class})
+    protected ResponseEntity<Object> outroConflict(RuntimeException runtimeException, WebRequest webRequest) {
+        Map<String, String> message = Map.of("message", runtimeException.getMessage());
+
+        return handleExceptionInternal(runtimeException, message, new HttpHeaders(), HttpStatus.CONFLICT, webRequest);
+
+    }
 }

@@ -51,21 +51,27 @@ public class ReservationService {
             reqStart = reservationRequest.getStartDate();
             reqFinish = reservationRequest.getFinishDate();
 
-            if (reqStart.isAfter(reservation.getStartDate()) &
+            if (reqStart.isAfter(reservation.getStartDate()) &&
                     reqFinish.isBefore(reservation.getFinishDate())) {
-                System.out.println("Não é possível realizar a reserva");
+                throw new IllegalArgumentException("Date conflict");
 
-            } else if ((reqStart.isAfter(reservation.getStartDate()) & reqStart.isBefore(reservation.getFinishDate())) &
+            } else if ((reqStart.isAfter(reservation.getStartDate()) && reqStart.isBefore(reservation.getFinishDate())) &&
                     reqFinish.isAfter(reservation.getFinishDate())) {
-                System.out.println("Não é possível realizar a reserva");
+                throw new IllegalArgumentException("Date conflict");
 
-            } else if (reqStart.isBefore(reservation.getStartDate()) &
+            } else if (reqStart.isBefore(reservation.getStartDate()) &&
                     reqFinish.isAfter(reservation.getFinishDate())) {
-                System.out.println("Não é possível realizar a reserva");
+                throw new IllegalArgumentException("Date conflict");
 
-            } else if (reqStart.isBefore(reservation.getStartDate()) &
-                    (reqFinish.isAfter(reservation.getStartDate()) & reqFinish.isBefore(reservation.getFinishDate()))){
-                System.out.println("Não é possível realizar a reserva");
+            } else if (reqStart.isBefore(reservation.getStartDate()) &&
+                    (reqFinish.isAfter(reservation.getStartDate()) && reqFinish.isBefore(reservation.getFinishDate()))) {
+                throw new IllegalArgumentException("Date conflict");
+
+            } else if (reqStart.isEqual(reservation.getStartDate()) ||
+                    reqStart.isEqual(reservation.getFinishDate()) ||
+                    reqFinish.isEqual(reservation.getStartDate()) ||
+                    reqFinish.isEqual(reservation.getFinishDate())) {
+                throw new IllegalArgumentException("Date conflict");
             }
         }
 
@@ -79,10 +85,10 @@ public class ReservationService {
         Reservation reservation = new Reservation(reservationRequest.getStartDate(), reservationRequest.getFinishDate()
                 , producer, performer, salary);
 
-
         return reservationRepository.save(reservation);
-
     }
+
+
 
     public void deleteReservation(Reservation reservation) {
         reservationRepository.delete(reservation);
