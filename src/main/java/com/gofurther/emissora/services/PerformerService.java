@@ -3,6 +3,7 @@ package com.gofurther.emissora.services;
 import com.gofurther.emissora.entities.Performer;
 import com.gofurther.emissora.repositories.PerformerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,9 @@ public class PerformerService {
   @Autowired
   PerformerRepository performerRepository;
 
+  @Autowired
+  PasswordEncoder passwordEncoder;
+
   public List<Performer> findAllBySalaryAndGenreAndDate(double budget, String genre,
       LocalDateTime date, int quantity) {
     return performerRepository.findAllBySalaryAndGenre(budget / quantity, genre, date);
@@ -21,6 +25,8 @@ public class PerformerService {
 
 
   public Performer createPerformer(Performer performer) {
+    String pass = passwordEncoder.encode(performer.getPassword());
+    performer.setPassword(pass);
     return performerRepository.save(performer);
   }
 
