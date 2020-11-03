@@ -8,11 +8,12 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PerformerRepository extends CrudRepository<Performer, Integer> {
 
-  Performer findByEmail(String email);
+  Optional<Performer> findByEmail(String email);
 
   List<Performer> findAllByStatus(boolean status);
 
