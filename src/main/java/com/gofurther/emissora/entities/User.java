@@ -23,6 +23,13 @@ public class User {
     this.isAdmin = isAdmin;
   }
 
+  public User(String name, boolean isAdmin, String email, String password) {
+    this.name = name;
+    this.isAdmin = isAdmin;
+    this.email = email;
+    this.password = password;
+  }
+
   public Integer getId() {
     return id;
   }

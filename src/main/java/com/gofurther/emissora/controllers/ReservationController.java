@@ -1,8 +1,6 @@
 package com.gofurther.emissora.controllers;
 
-import com.gofurther.emissora.entities.Performer;
-import com.gofurther.emissora.entities.ReservationRequest;
-import com.gofurther.emissora.entities.Reservation;
+import com.gofurther.emissora.entities.*;
 import com.gofurther.emissora.repositories.ReservationRepository;
 import com.gofurther.emissora.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +41,8 @@ public class ReservationController {
 //
 //        return ResponseEntity.ok(reservationRepository.findAllByPerformerGenreAndPerformerSalaryLessThanEqual(genre,budget));
 //    }
-
+    @GetMapping("/dashboard/{id}")
+    public ResponseEntity<Dashboard> getDashboard(@PathVariable("id") int id){
+        return ResponseEntity.ok(reservationService.getDashboard(id));
+    }
 }

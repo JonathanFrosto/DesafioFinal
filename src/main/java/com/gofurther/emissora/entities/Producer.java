@@ -11,4 +11,8 @@ public class Producer extends User {
   public Producer() {
     super(true);
   }
+
+  public Producer(String name, String email, String password) {
+    super(name, true, email, password);
+  }
 }
