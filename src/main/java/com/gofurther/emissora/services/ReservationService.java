@@ -8,6 +8,7 @@ import com.gofurther.emissora.repositories.PerformerRepository;
 import com.gofurther.emissora.repositories.ProducerRepository;
 import com.gofurther.emissora.repositories.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -43,7 +44,8 @@ public class ReservationService {
 
 
   public Reservation createReservation(ReservationRequest reservationRequest) {
-    Performer performer = performerRepository.findByEmail(reservationRequest.getEmailPerformer());
+    Performer performer = performerRepository.findByEmail(reservationRequest.getEmailPerformer())
+            .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
 
     List<Reservation> reservations = getAllPerformerReservations(performer.getId());
 
