@@ -33,12 +33,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/performer/register")
-                    .permitAll()
-                    .antMatchers("/producer/register")
-                    .permitAll()
+                .antMatchers("/api/performer/register")
+                .permitAll()
+                .antMatchers("/api/performer/getAllBy")
+                .hasRole("ADMIN")
+                .antMatchers("/api/performer/searchPerformerBy")
+                .hasRole("ADMIN")
+                .antMatchers("/api/producer/register")
+                .permitAll()
+                .antMatchers("/api/reservation/register")
+                .hasRole("ADMIN")
+                .antMatchers("/api/reservation/producer/**")
+                .hasRole("ADMIN")
+                .antMatchers("/api/reservation/performer/**")
+                .hasAnyRole("USER", "ADMIN")
+                .antMatchers("/api/reservation/dashboard/**")
+                .hasAnyRole("USER", "ADMIN")
                 .and()
-                    .httpBasic();
+                .httpBasic();
         ;
     }
 }

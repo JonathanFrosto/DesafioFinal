@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/producer")
+@RequestMapping("/api/producer")
 public class ProducerController {
 
   @Autowired

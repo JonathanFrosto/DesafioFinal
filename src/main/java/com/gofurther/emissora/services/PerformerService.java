@@ -18,19 +18,17 @@ public class PerformerService {
   @Autowired
   PasswordEncoder passwordEncoder;
 
-  public List<Performer> findAllBySalaryAndGenreAndDate(double budget, String genre,
-      LocalDateTime date, int quantity) {
-    return performerRepository.findAllBySalaryAndGenre(budget / quantity, genre, date);
-  }
-
-
   public Performer createPerformer(Performer performer) {
     String pass = passwordEncoder.encode(performer.getPassword());
     performer.setPassword(pass);
     return performerRepository.save(performer);
   }
 
-  public List<Performer> findAllByStarsAndSalary(boolean status, double star, double salary) {
+  public List<Performer> findAllBySalaryAndGenreAndDate(double budget, String genre, LocalDateTime date, int quantity) {
+    return performerRepository.findAllBySalaryAndGenre(budget / quantity, genre, date);
+  }
+
+  public List<Performer> findAllByStatusAndStarsAndSalary(boolean status, double star, double salary) {
     if (star == 0 && salary == 0) {
       return performerRepository.findAllByStatus(status);
     } else if (star == 0 && salary != 0) {

@@ -13,7 +13,4 @@ import java.util.List;
 public interface ReservationRepository extends CrudRepository<Reservation,Integer> {
     List<Reservation> findAllByProducerId(Integer producerId);
     List<Reservation> findAllByPerformerId(Integer performerId);
-
-
-
 }

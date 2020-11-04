@@ -20,10 +20,12 @@ public class Performer extends User{
         super(false);
     }
 
-    public Performer(String name, String email, String password, Gender gender, double salary, List<String> genre) {
+    public Performer(String name, String email, String password, Gender gender, double salary, double stars, boolean status, List<String> genre) {
         super(name, false, email, password);
         this.gender = gender;
         this.salary = salary;
+        this.stars = stars;
+        this.status = status;
         this.genre = genre;
     }
 
