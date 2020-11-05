@@ -25,7 +25,7 @@ public class PerformerService {
   }
 
   public List<Performer> findAllBySalaryAndGenreAndDate(double budget, String genre, LocalDateTime date, int quantity) {
-    return performerRepository.findAllBySalaryAndGenre(budget / quantity, genre, date);
+    return performerRepository.findAllBySalaryAndGenreAndDate(budget / quantity, genre, date);
   }
 
   public List<Performer> findAllByStatusAndStarsAndSalary(boolean status, double star, double salary) {
