@@ -16,10 +16,10 @@ public interface PerformerRepository extends CrudRepository<Performer, Integer> 
 
   List<Performer> findAllByStatus(boolean status);
 
-  @Query(value = "SELECT * FROM PERFORMER A LEFT JOIN PERFORMER_GENRE B ON B.PERFORMER_ID = A.ID LEFT JOIN RESERVATION C  \n" +
-          "ON C.PERFORMER_ID = A.ID WHERE A.SALARY <= ?1 AND B.GENRE = ?2 \n" +
-          "AND (NOT ?3 BETWEEN  C.START_DATE AND C.FINISH_DATE OR  C.START_DATE  IS NULL)", nativeQuery = true)
-  List<Performer> findAllBySalaryAndGenre(double budget,String genre,LocalDateTime date);
+  @Query(value = "SELECT * FROM PERFORMER A LEFT JOIN PERFORMER_GENRE B ON B.PERFORMER_ID = A.ID" +
+          " LEFT JOIN RESERVATION C ON C.PERFORMER_ID = A.ID WHERE A.SALARY <= ?1 AND B.GENRE = ?2" +
+          " AND (NOT ?3 BETWEEN  C.START_DATE AND C.FINISH_DATE OR  C.START_DATE  IS NULL)", nativeQuery = true)
+  List<Performer> findAllBySalaryAndGenreAndDate(double budget, String genre, LocalDateTime date);
 
   @Query("select p from Performer p where p.salary between :salary*0.8 and :salary*1.2 and p.status = :status")
   List<Performer> findAllByStatusAndSalary(@Param("status") boolean status,
