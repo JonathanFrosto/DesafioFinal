@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/reservation")
+@RequestMapping("/api/reservation")
 public class ReservationController {
+
     @Autowired
     ReservationService reservationService;
     @Autowired
@@ -33,14 +34,6 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.getAllPerformerReservations(performerId));
     }
 
-//    @GetMapping("/getTest")
-//    public ResponseEntity<List<Reservation>> getAllByGenreAndDateAndSalary(
-//            @RequestParam("genre") String genre,
-//            @RequestParam("budget") double budget)
-//    {
-//
-//        return ResponseEntity.ok(reservationRepository.findAllByPerformerGenreAndPerformerSalaryLessThanEqual(genre,budget));
-//    }
     @GetMapping("/dashboard/{id}")
     public ResponseEntity<Dashboard> getDashboard(@PathVariable("id") int id){
         return ResponseEntity.ok(reservationService.getDashboard(id));

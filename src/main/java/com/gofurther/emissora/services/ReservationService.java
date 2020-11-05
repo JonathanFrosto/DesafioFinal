@@ -38,15 +38,18 @@ public class ReservationService {
     }
 
 
-  public Reservation createReservation(ReservationRequest reservationRequest) {
-    Performer performer = performerRepository.findByEmail(reservationRequest.getEmailPerformer())
-            .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+    public Reservation createReservation(ReservationRequest reservationRequest) {
+        Producer producer = producerRepository.findByEmail(reservationRequest.getEmailProducer())
+                .orElseThrow(() -> new UsernameNotFoundException("Producer email does not exists"));
 
+        Performer performer = performerRepository.findByEmail(reservationRequest.getEmailPerformer())
+                .orElseThrow(() -> new UsernameNotFoundException("Performer email does not exists!"));
 
         List<Reservation> reservations = getAllPerformerReservations(performer.getId());
 
         LocalDateTime reqStart;
         LocalDateTime reqFinish;
+
         for (Reservation reservation : reservations) {
             reqStart = reservationRequest.getStartDate();
             reqFinish = reservationRequest.getFinishDate();
@@ -76,9 +79,6 @@ public class ReservationService {
                 throw new IllegalArgumentException("Date conflict");
             }
         }
-
-        Producer producer = producerRepository.findByEmail(reservationRequest.getEmailProducer())
-                .orElseThrow(() -> new IllegalArgumentException("This email has been used"));
 
         Duration d = Duration
                 .between(reservationRequest.getStartDate(), reservationRequest.getFinishDate());
