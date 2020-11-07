@@ -1,5 +1,6 @@
 package com.gofurther.emissora.controllers;
 
+import com.gofurther.emissora.entities.LoginRequest;
 import com.gofurther.emissora.entities.Performer;
 import com.gofurther.emissora.services.PerformerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,11 @@ public class PerformerController {
     return ResponseEntity.ok(performerService.createPerformer(performer));
   }
 
+  @GetMapping("/getByEmail")
+  public ResponseEntity<Performer> getPerformerByEmail(@RequestBody LoginRequest loginRequest) {
+    return ResponseEntity.ok(performerService.getByEmail(loginRequest));
+  }
+
   @GetMapping("/getAllBy")
   public ResponseEntity<List<Performer>> getAllByStatusAndStarsAndSalary(
           @RequestParam("status") boolean status,
@@ -40,5 +46,11 @@ public class PerformerController {
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
     return ResponseEntity
             .ok(performerService.findAllBySalaryAndGenreAndDate(budget, genre, date, quantity));
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity deletePerformer(@PathVariable("id") int id) {
+    performerService.deletePerformer(id);
+    return ResponseEntity.ok("Performer deleted with success");
   }
 }

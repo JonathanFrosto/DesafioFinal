@@ -3,6 +3,7 @@ package com.gofurther.emissora.config;
 import com.gofurther.emissora.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -33,21 +34,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/performer/register")
+                .antMatchers(HttpMethod.POST,"/api/performer/register")
                 .permitAll()
-                .antMatchers("/api/performer/getAllBy")
+                .antMatchers(HttpMethod.GET,"/api/performer/getByEmail")
+                .hasRole("USER")
+                .antMatchers(HttpMethod.GET,"/api/performer/getAllBy")
                 .hasRole("ADMIN")
-                .antMatchers("/api/performer/searchPerformerBy")
+                .antMatchers(HttpMethod.GET,"/api/performer/searchPerformerBy")
                 .hasRole("ADMIN")
-                .antMatchers("/api/producer/register")
+                .antMatchers(HttpMethod.DELETE,"/api/performer/**")
+                .hasRole("USER")
+                .antMatchers(HttpMethod.POST,"/api/producer/register")
                 .permitAll()
-                .antMatchers("/api/reservation/register")
+                .antMatchers(HttpMethod.GET,"/api/producer/getByEmail")
                 .hasRole("ADMIN")
-                .antMatchers("/api/reservation/producer/**")
+                .antMatchers(HttpMethod.DELETE,"/api/producer/**")
                 .hasRole("ADMIN")
-                .antMatchers("/api/reservation/performer/**")
+                .antMatchers(HttpMethod.POST,"/api/reservation/register")
+                .hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/api/reservation/producer/**")
+                .hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/api/reservation/performer/**")
                 .hasAnyRole("USER", "ADMIN")
-                .antMatchers("/api/reservation/dashboard/**")
+                .antMatchers(HttpMethod.GET,"/api/reservation/dashboard/**")
                 .hasAnyRole("USER", "ADMIN")
                 .and()
                 .httpBasic();

@@ -1,7 +1,6 @@
 package com.gofurther.emissora.entities;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,11 +16,10 @@ public class Performer extends User{
     private List<String> genre;
 
     public Performer() {
-        super(false);
     }
 
     public Performer(String name, String email, String password, Gender gender, double salary, double stars, boolean status, List<String> genre) {
-        super(name, false, email, password);
+        super(name, email, password);
         this.gender = gender;
         this.salary = salary;
         this.stars = stars;

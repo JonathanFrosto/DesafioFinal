@@ -1,8 +1,5 @@
 package com.gofurther.emissora.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.*;
 
 @MappedSuperclass
@@ -19,13 +16,11 @@ public class User {
   private String email;
   private String password;
 
-  public User(boolean isAdmin) {
-    this.isAdmin = isAdmin;
+  public User() {
   }
 
-  public User(String name, boolean isAdmin, String email, String password) {
+  public User(String name, String email, String password) {
     this.name = name;
-    this.isAdmin = isAdmin;
     this.email = email;
     this.password = password;
   }
@@ -40,14 +35,6 @@ public class User {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public boolean isAdmin() {
-    return isAdmin;
-  }
-
-  public void setAdmin(boolean admin) {
-    isAdmin = admin;
   }
 
   public String getEmail() {
