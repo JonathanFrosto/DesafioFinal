@@ -1,6 +1,5 @@
 package com.gofurther.emissora.entities;
 
-
 import java.time.LocalDateTime;
 
 public class ReservationRequest {

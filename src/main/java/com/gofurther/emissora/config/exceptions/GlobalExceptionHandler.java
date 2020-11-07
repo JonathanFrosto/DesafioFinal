@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException.Unauthorized;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -20,7 +21,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     return handleExceptionInternal(runtimeException, message, new HttpHeaders(),
         HttpStatus.CONFLICT, webRequest);
-
   }
 
   @ExceptionHandler(value = {RuntimeException.class})
@@ -30,6 +30,5 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     return handleExceptionInternal(runtimeException, message, new HttpHeaders(),
         HttpStatus.CONFLICT, webRequest);
-
   }
 }

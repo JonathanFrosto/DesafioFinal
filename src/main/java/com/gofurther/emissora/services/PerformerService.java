@@ -1,8 +1,10 @@
 package com.gofurther.emissora.services;
 
+import com.gofurther.emissora.entities.LoginRequest;
 import com.gofurther.emissora.entities.Performer;
 import com.gofurther.emissora.repositories.PerformerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +26,10 @@ public class PerformerService {
     return performerRepository.save(performer);
   }
 
+  public Performer getByEmail(LoginRequest loginRequest) {
+    return performerRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new UsernameNotFoundException("Performer does not exist"));
+  }
+
   public List<Performer> findAllBySalaryAndGenreAndDate(double budget, String genre, LocalDateTime date, int quantity) {
     return performerRepository.findAllBySalaryAndGenreAndDate(budget / quantity, genre, date);
   }
@@ -37,5 +43,9 @@ public class PerformerService {
       return performerRepository.findAllByStatusAndStars(status, star);
     }
     return performerRepository.findAllByStatusAndStarsAndSalary(status, star, salary);
+  }
+
+  public void deletePerformer(int id) {
+    performerRepository.deleteById(id);
   }
 }

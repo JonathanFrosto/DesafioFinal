@@ -37,48 +37,16 @@ public class ReservationService {
         return reservationRepository.findAllByPerformerId(performerId);
     }
 
-
     public Reservation createReservation(ReservationRequest reservationRequest) {
         Producer producer = producerRepository.findByEmail(reservationRequest.getEmailProducer())
-                .orElseThrow(() -> new UsernameNotFoundException("Producer email does not exists"));
+                .orElseThrow(() -> new UsernameNotFoundException("Producer email does not exist"));
 
         Performer performer = performerRepository.findByEmail(reservationRequest.getEmailPerformer())
-                .orElseThrow(() -> new UsernameNotFoundException("Performer email does not exists!"));
+                .orElseThrow(() -> new UsernameNotFoundException("Performer email does not exist!"));
 
         List<Reservation> reservations = getAllPerformerReservations(performer.getId());
 
-        LocalDateTime reqStart;
-        LocalDateTime reqFinish;
-
-        for (Reservation reservation : reservations) {
-            reqStart = reservationRequest.getStartDate();
-            reqFinish = reservationRequest.getFinishDate();
-
-            if (reqStart.isAfter(reservation.getStartDate()) &&
-                    reqFinish.isBefore(reservation.getFinishDate())) {
-                throw new IllegalArgumentException("Date conflict");
-
-            } else if ((reqStart.isAfter(reservation.getStartDate()) && reqStart
-                    .isBefore(reservation.getFinishDate())) &&
-                    reqFinish.isAfter(reservation.getFinishDate())) {
-                throw new IllegalArgumentException("Date conflict");
-
-            } else if (reqStart.isBefore(reservation.getStartDate()) &&
-                    reqFinish.isAfter(reservation.getFinishDate())) {
-                throw new IllegalArgumentException("Date conflict");
-
-            } else if (reqStart.isBefore(reservation.getStartDate()) &&
-                    (reqFinish.isAfter(reservation.getStartDate()) && reqFinish
-                            .isBefore(reservation.getFinishDate()))) {
-                throw new IllegalArgumentException("Date conflict");
-
-            } else if (reqStart.isEqual(reservation.getStartDate()) ||
-                    reqStart.isEqual(reservation.getFinishDate()) ||
-                    reqFinish.isEqual(reservation.getStartDate()) ||
-                    reqFinish.isEqual(reservation.getFinishDate())) {
-                throw new IllegalArgumentException("Date conflict");
-            }
-        }
+        checkDate(reservations, reservationRequest);
 
         Duration d = Duration
                 .between(reservationRequest.getStartDate(), reservationRequest.getFinishDate());
@@ -139,7 +107,41 @@ public class ReservationService {
         return new Dashboard(reservations.size(),mainPerformers,mainDates);
     }
 
-    public void deleteReservation(Reservation reservation) {
-        reservationRepository.delete(reservation);
+    public void deleteReservation(int id) {
+        reservationRepository.deleteById(id);
+    }
+
+    public void checkDate(List<Reservation> reservations, ReservationRequest reservationRequest) {
+        LocalDateTime reqStart;
+        LocalDateTime reqFinish;
+
+        for (Reservation reservation : reservations) {
+            reqStart = reservationRequest.getStartDate();
+            reqFinish = reservationRequest.getFinishDate();
+
+            if (reqStart.isAfter(reservation.getStartDate()) &&
+                reqFinish.isBefore(reservation.getFinishDate())) {
+              throw new IllegalArgumentException("Error creating the reservation: Date conflict");
+
+            } else if ((reqStart.isAfter(reservation.getStartDate()) && reqStart
+                .isBefore(reservation.getFinishDate())) &&
+                reqFinish.isAfter(reservation.getFinishDate())) {
+              throw new IllegalArgumentException("Error creating the reservation: Date conflict");
+
+            } else if (reqStart.isBefore(reservation.getStartDate()) &&
+                reqFinish.isAfter(reservation.getFinishDate())) {
+              throw new IllegalArgumentException("Error creating the reservation: Date conflict");
+
+            } else if (reqStart.isBefore(reservation.getStartDate()) &&
+                (reqFinish.isAfter(reservation.getStartDate()) && reqFinish
+                    .isBefore(reservation.getFinishDate()))) {
+              throw new IllegalArgumentException("Error creating the reservation: Date conflict");
+            } else if (reqStart.isEqual(reservation.getStartDate()) ||
+                reqStart.isEqual(reservation.getFinishDate()) ||
+                reqFinish.isEqual(reservation.getStartDate()) ||
+                reqFinish.isEqual(reservation.getFinishDate())) {
+              throw new IllegalArgumentException("Error creating the reservation: Date conflict");
+            }
+        }
     }
 }

@@ -1,7 +1,6 @@
 package com.gofurther.emissora.controllers;
 
 import com.gofurther.emissora.entities.*;
-import com.gofurther.emissora.repositories.ReservationRepository;
 import com.gofurther.emissora.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +15,6 @@ public class ReservationController {
 
     @Autowired
     ReservationService reservationService;
-    @Autowired
-    ReservationRepository reservationRepository;
 
     @PostMapping("/register")
     public ResponseEntity<Reservation> createReservation(@RequestBody ReservationRequest reservationRequest){
@@ -37,5 +34,11 @@ public class ReservationController {
     @GetMapping("/dashboard/{id}")
     public ResponseEntity<Dashboard> getDashboard(@PathVariable("id") int id){
         return ResponseEntity.ok(reservationService.getDashboard(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteReservation(@PathVariable("id") int id) {
+      reservationService.deleteReservation(id);
+      return ResponseEntity.ok("Reservation deleted with success");
     }
 }
